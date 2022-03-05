@@ -8,13 +8,38 @@
   </head>
   <body>
     <section id="main">
-      <figure>
-        <img src="assets/images/najib-mahfuz-portfolio-1.jpg" />
-        <figcaption>
-          <div>أنا</div>
-          <div>نجيب محفوظ</div>
-        </figcaption>
-      </figure>
+      <svg id="figure-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="870" viewBox="0 0 697 870">
+        <defs>
+          <filter id="First_Name" x="285" y="234" width="402" height="442" filterUnits="userSpaceOnUse">
+            <feOffset dx="8" dy="3" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feFlood flood-opacity="0.161"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+          </filter>
+          <filter id="Second_Name" x="224" y="437" width="461" height="433" filterUnits="userSpaceOnUse">
+            <feOffset dx="8" dy="3" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="3" result="blur-2"/>
+            <feFlood flood-opacity="0.161"/>
+            <feComposite operator="in" in2="blur-2"/>
+            <feComposite in="SourceGraphic"/>
+          </filter>
+        </defs>
+        <g id="Picture" transform="translate(-616 -240)">
+          <g id="Frame" transform="translate(616 265)" fill="none" stroke="#ffb434" stroke-width="15">
+            <rect width="697" height="697" stroke="none"/>
+            <rect x="7.5" y="7.5" width="682" height="682" fill="none"/>
+          </g>
+          <text id="Pronoun" transform="translate(1104 560)" fill="#fff" font-size="322" font-family="TraditionalArabic, Traditional Arabic" opacity="0.88"><tspan x="0" y="0">أنا</tspan></text>
+          <image id="Photo" width="530" height="472" transform="translate(659 456)" opacity="0.87" xlink:href="assets/images/najib-mahfuz-portfolio-1.jpg"/>
+          <g transform="matrix(1, 0, 0, 1, 616, 240)" filter="url(#First_Name)">
+            <text id="First_Name-2" data-name="First Name" transform="translate(286 522)" fill="#fff" font-size="284" font-family="TraditionalArabic, Traditional Arabic"><tspan x="0" y="0">نجيب</tspan></text>
+          </g>
+          <g transform="matrix(1, 0, 0, 1, 616, 240)" filter="url(#Second_Name)">
+            <text id="Second_Name-2" data-name="Second Name" transform="translate(225 719)" fill="#fff" font-size="278" font-family="TraditionalArabic, Traditional Arabic"><tspan x="0" y="0">محفوظ</tspan></text>
+          </g>
+        </g>
+      </svg>
       <nav>
         <ul>
           <li><a href="#about-me">نبذة عني</a></li>

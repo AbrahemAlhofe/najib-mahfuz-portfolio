@@ -14,43 +14,9 @@ section#main {
   align-items: center;
   flex-direction: column;
   
-  figure {
-
-    font-size: 1vw;
-    border: 1em solid var(--yellow-60);
-    padding: 1rem;
-    width: 30em;
-    height: 30.5em;
-    position: relative;
-
-    & > img {
-  
-      position: absolute;
-      width: 80%;
-      bottom: 1rem;
-      left: 1rem;
-      opacity: 0.80;
-  
-    }
-
-    & > figcaption {
-
-      color: white;
-      font-family: "Traditional Arabic";
-      font-size: 12.5em;
-      position: absolute;
-      right: 1rem;
-      bottom: -1rem;
-
-      div:nth-child(2) {
-
-        line-height: 0.70em;
-        width: min-content;
-
-      }
-
-    }
-
+  #figure-1 {
+    direction: ltr;
+    width: 75vw;
   }
 
   nav {
