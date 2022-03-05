@@ -1,8 +1,81 @@
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+:root {
+
+  --yellow-60: hsl(38, 100%, 60%);
+
+}
+
+section#main {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(0deg, hsla(0, 0%, 0%, 0.6), hsla(0, 0%, 0%, 0.6)), url("/assets/images/cairo-overview.jpg");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  figure {
+
+    font-size: 1vw;
+    border: 1em solid var(--yellow-60);
+    padding: 1rem;
+    width: 30em;
+    height: 30.5em;
+    position: relative;
+
+    & > img {
+  
+      position: absolute;
+      width: 80%;
+      bottom: 1rem;
+      left: 1rem;
+      opacity: 0.80;
+  
+    }
+
+    & > figcaption {
+
+      color: white;
+      font-family: "Traditional Arabic";
+      font-size: 12.5em;
+      position: absolute;
+      right: 1rem;
+      bottom: -1rem;
+
+      div:nth-child(2) {
+
+        line-height: 0.70em;
+        width: min-content;
+
+      }
+
+    }
+
+  }
+
+  nav {
+
+    height: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    li {
+
+      font-family: "Traditional Arabic";
+      display: inline;
+      font-size: 5vw;
+      margin-inline: 0.5em;
+
+      a {
+
+        text-decoration: none;
+        color: white;
+
+      }
+
+    }
+
+  }
+  
 }
