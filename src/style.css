@@ -1,6 +1,21 @@
 :root {
 
   --yellow-60: hsl(38, 100%, 60%);
+  --gray-90: hsl(0, 0%, 90%);
+  --gray-95: hsl(0, 0%, 95%);
+
+}
+
+html {
+
+  font-size: 12px;
+  scroll-behavior: smooth;
+
+}
+
+body {
+
+  background-color: var(--gray-95);
 
 }
 
@@ -49,4 +64,112 @@ section#main {
 
   }
   
+}
+
+section#about-me {
+
+  display: flex;
+  align-items: center;
+  padding: 3rem;
+  flex-direction: column;
+  gap: 3.5rem;
+
+  .figure {
+
+    width: 75vw;
+    
+  }
+
+  p {
+
+    font-family: "Traditional Arabic";
+    text-align: justify;
+    font-size: 2rem;
+    
+  }
+
+  ul {
+
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    min-height: 30ch;
+    align-content: center;
+    justify-content: space-around;
+
+    @media (width >= 768px) {
+
+      min-height: 45vmin;
+      
+    }
+
+    @media (width >= 1440px) {
+
+      min-height: 85vmin;
+
+    }
+
+    &:before {
+      content: attr(data-title);
+      font-family: "Traditional Arabic";
+      position: absolute;
+      font-size: 35vw;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--gray-90);
+      z-index: -1;
+    }
+
+    figure {
+
+      display: flex;
+      margin-block: 1em;
+      gap: 1em;
+      align-items: center;
+      margin: 0;
+      font-size: 2vw;
+
+      img {
+
+        width: 15vw;
+
+      }
+
+      figcaption {
+
+        display: flex;
+        flex-direction: column;
+        font-size: 1.5em;
+        font-family: "Traditional Arabic";
+        gap: 1em;
+
+      }
+
+    }
+
+  }
+
+  @media (width >= 768px) {
+
+    p {
+      width: 55vw;
+    }
+
+  }
+
+  @media (width >= 1024px) {
+
+    p {
+      font-size: 3rem;
+    }
+
+    .figure {
+      width: 60vw;
+    }
+
+  }
+
 }
