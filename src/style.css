@@ -173,3 +173,197 @@ section#about-me {
   }
 
 }
+
+section#my-works {
+  
+  header {
+    
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    width: 85vw;
+    margin: 1rem auto;
+    flex-direction: column;
+    
+    &:before {
+  
+      content: "";
+      border-radius: 1px;
+      border: 2px solid var(--gray-90);
+      background-color: var(--gray-90);
+      align-self: stretch;
+  
+    }
+
+    .figure {
+  
+      order: -1;
+      height: fit-content;
+      text-align: justify;
+      width: 80vw;
+    
+    }
+  
+    p {
+  
+      font-family: "Traditional Arabic";
+      font-size: 2rem;
+      text-align: justify;
+  
+    }
+
+    @media screen and ( width >= 768px ) {
+
+      flex-direction: row;
+
+      .figure {
+
+        width: 110vw;
+
+      }
+
+    }
+
+  }
+
+  .library {
+
+    --gap: 3em;
+    --dispersion-rate: 90px;
+    
+    display: flex;
+    justify-content: center;
+    gap: var(--gap);
+    height: 100vh;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    font-size: 0.55rem;
+
+    &__shade {
+
+      position: absolute;
+      list-style-type: none;
+      background-color: var(--gray-90);
+      z-index: -2;
+      border-radius: 10px;
+      height: 90%;
+      top: 0;
+
+      &:nth-of-type(odd) {
+        
+        opacity: 0.random(1, 5, {round: true});
+        background-color: var(--yellow-60);
+        
+      }
+
+      @for $i from 1 to 10 {
+        
+        &:nth-of-type($i) {
+          
+          width: 0.random(0, 4, {round: true})rem;
+          transform: rotateZ(45deg) translate(calc( ( ( $(i) - 1 ) * 90px ) + -150px ), 40px) scaleY(0.8);
+
+        }
+
+      }
+
+    }
+
+    &__title {
+
+      --distance-ratio: 1;
+      position: absolute;
+      font-family: "Traditional Arabic";
+      font-size: 12.5rem;
+      color: var(--gray-90);
+      z-index: -1;
+      width: max-content;
+
+      &:nth-of-type(1) {
+
+        transform:
+          translateX( calc( var(--distance-ratio) * 0.5em ) )
+          translateY( calc( var(--distance-ratio) * -2em ) );
+
+      }
+
+      &:nth-of-type(2) {
+
+        transform:
+          translateX( calc( var(--distance-ratio) * -1em ) )
+          translateY( calc( var(--distance-ratio) * -1em ) );
+
+      }
+
+      &:nth-of-type(3) {
+
+        transform:
+          translateX( calc( var(--distance-ratio) * 2em ) )
+          translateY( calc( var(--distance-ratio) * -0.75em ) );
+
+      }
+
+      &:nth-of-type(4) {
+
+        transform:
+          translateX( calc( var(--distance-ratio) * 0em ) )
+          translateY( calc( var(--distance-ratio) * 1.5em ) );
+
+      }
+
+    }
+
+    &__shelf:nth-of-type(1) {
+
+      display: flex;
+      align-items: center;
+
+    }
+
+    &__shelf:nth-of-type(2) {
+
+      margin-top: calc( var(--dispersion-rate) * -1 );
+
+    }
+
+    &__shelf:nth-of-type(4) {
+
+      margin-top: var(--dispersion-rate);
+
+    }
+
+    &__shelf:nth-of-type(1), &__shelf:nth-of-type(4) {
+
+      display: none
+
+    }
+
+    @media screen and (width >= 768px) {
+      
+      &__shelf:nth-of-type(1), &__shelf:nth-of-type(4) {
+
+        display: flex;
+  
+      }
+
+    }
+
+
+    .book {
+
+      margin-block: var(--gap);
+      overflow: hidden;
+      border-radius: 5px;
+
+      &__thumbnail {
+
+        width: 20em;
+
+      }
+
+    }
+
+  }
+
+}
