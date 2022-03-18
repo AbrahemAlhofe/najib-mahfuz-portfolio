@@ -1,6 +1,7 @@
 :root {
 
   --yellow-60: hsl(38, 100%, 60%);
+  --gray-65: hsl(0deg 0% 65%);
   --gray-90: hsl(0, 0%, 90%);
   --gray-95: hsl(0, 0%, 95%);
 
@@ -365,5 +366,190 @@ section#my-works {
     }
 
   }
+
+}
+
+section#contact-me {
+
+  height: 100vh;
+  padding-inline: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  
+  @media screen and (width >= 768px) {
+    
+    flex-wrap: wrap;
+
+  }
+
+  @media screen and (width >= 1280px) {
+
+    width: 50vw;
+    margin: auto;
+
+  }
+
+  header {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 25em;
+    margin-block: 6.5rem;
+    position: relative;
+    align-self: center;
+
+    @media screen and (width >= 768px) {
+
+      align-self: auto;
+
+    }
+
+    .background {
+
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: -1;
+
+      &__shade {
+
+        font-family: "Traditional Arabic";
+        font-size: 4.5rem;
+        color: var(--gray-90);
+        position: absolute;
+
+        &:nth-child(1) {
+
+          transform: translate(65px, 135px);
+
+        }
+
+        &:nth-child(2) {
+
+          transform: translate(120px, 45px);
+
+        }
+
+        &:nth-child(3) {
+
+          transform: translate(-120px, 10px);
+
+        }
+
+        &:nth-child(4) {
+
+          transform: translate(35px, -90px);
+
+        }
+
+      }
+
+    }
+
+    span {
+  
+      --distance: 95px;
+      font-family: "Traditional Arabic";
+      font-size: 10rem;
+      display: block;
+
+      &:after {
+        content: "";
+        position: relative;
+        z-index: -1;
+        width: 100%;
+        height: 5px;
+        background-color: var(--yellow-60);
+        display: block;
+        margin-top: -25px;
+        transform: scaleX(1.2);
+      }
+
+      &:nth-of-type(1) {
+
+        margin-left: var(--distance);
+
+      }
+
+      &:nth-of-type(2) {
+
+        margin-right: var(--distance);
+
+      }
+  
+    }
+
+  }
+
+  .social-links {
+
+    a {
+
+      font-family: "Traditional Arabic";
+      font-size: 8rem;
+      text-decoration: none;
+      color: var(--gray-65);
+      position: relative;
+      display: flex;
+      align-items: end;
+      width: max-content;
+
+      &:before {
+
+        content: "";
+        width: 120%;
+        height: 0.35em;
+        display: block;
+        position: absolute;
+        z-index: -1;
+        background-color: var(--gray-90);
+        margin-bottom: 0.20em;
+
+      }
+
+    }
+
+  }
+
+  .picture {
+
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+    filter: grayscale(1);
+    opacity: 0.25;
+    margin-block: auto;
+    width: 25vh;
+    z-index: -5;
+
+    @media screen and ( width >= 768px ) {
+      
+      position: static;
+      filter: unset;
+      opacity: 1;
+      width: 50vw;
+
+    }
+
+    @media screen and ( width >= 1280px ) {
+
+      width: 30vw;
+
+    }
+
+    img {
+
+      width: 100%;
+
+    }
+
+  }
+
 
 }
