@@ -35,6 +35,8 @@ section#main {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 1em;
+  box-sizing: border-box;
   
   .figure#main {
     width: 75vw;

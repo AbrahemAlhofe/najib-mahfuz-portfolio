@@ -8,38 +8,46 @@
   </head>
   <body>
     <section id="main">
-      <svg id="main" class="figure" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="870" viewBox="0 0 697 870">
+      <svg class="figure" id="main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="697" height="845" viewBox="0 0 697 845">
         <defs>
-          <filter id="First_Name" x="285" y="234" width="402" height="442" filterUnits="userSpaceOnUse">
+          <filter id="FirstNameFilter" x="285" y="209" width="402" height="442" filterUnits="userSpaceOnUse">
             <feOffset dx="8" dy="3" input="SourceAlpha"/>
             <feGaussianBlur stdDeviation="3" result="blur"/>
             <feFlood flood-opacity="0.161"/>
             <feComposite operator="in" in2="blur"/>
             <feComposite in="SourceGraphic"/>
           </filter>
-          <filter id="Second_Name" x="224" y="437" width="461" height="433" filterUnits="userSpaceOnUse">
+          <filter id="SecondNameFilter" x="224" y="412" width="461" height="433" filterUnits="userSpaceOnUse">
             <feOffset dx="8" dy="3" input="SourceAlpha"/>
             <feGaussianBlur stdDeviation="3" result="blur-2"/>
             <feFlood flood-opacity="0.161"/>
             <feComposite operator="in" in2="blur-2"/>
             <feComposite in="SourceGraphic"/>
           </filter>
+          <clipPath id="clip-path">
+            <path id="Pronoun" d="M107.543-62.419q0,13.521-3.066,22.012A30.9,30.9,0,0,1,95.83-27.122,30.22,30.22,0,0,1,82.308-20.6a84.133,84.133,0,0,1-17.845,1.729,84.166,84.166,0,0,1-15.172-1.258A29.691,29.691,0,0,1,37.5-24.842a25.081,25.081,0,0,1-8.019-9.591q-3.066-6.132-3.852-15.723-1.1-15.408-6.6-61-4.717-39.307-4.717-43.395,0-6.289,11.32-19.968L35.69-60.532a26.687,26.687,0,0,0,3.38,11.713,19.64,19.64,0,0,0,7,6.918,26.945,26.945,0,0,0,9.591,3.223,77.829,77.829,0,0,0,11.32.786,68.111,68.111,0,0,0,13.836-1.336,57.649,57.649,0,0,0,11.163-3.38q8.49-3.773,8.49-8.647A9.428,9.428,0,0,0,98.9-56.287L92.135-67.293a13.146,13.146,0,0,1-2.2-6.761,10.839,10.839,0,0,1,1.887-6.132L100-92.764h.786A72.931,72.931,0,0,1,107.543-62.419ZM86.632-137.573,75.469-121.064,60.532-133.643l11.006-16.194Zm78.3,77.984q0,14.308-8.333,39.307l-3.145-.943Q155.34-33.8,155.34-38.363a201.045,201.045,0,0,0-1.887-26.1l-8.019-61a133.839,133.839,0,0,1-1.415-15.88q0-12.421,10.377-33.175.314,25.471,2.2,39.936l6.446,51.57A202.172,202.172,0,0,1,164.931-59.589Zm16.509-138.2a35.913,35.913,0,0,1-1.572,5.817q-1.415,3.773-3.773,4.4L132.7-175.15q1.415-5.975,4.56-8.49,2.673-2.358,11.32-5.5Q138.2-194.175,138.2-201.407a11.774,11.774,0,0,1,2.673-6.918Q154.4-226.878,166.5-226.878q8.176,0,8.176,8.8,0,3.773-4.56,10.691-8.019-5.188-12.735-5.188-4.4,0-10.534,5.188,12.578,11.792,22.326,11.792Q173.106-195.59,181.439-197.791Z" transform="translate(862 591)" fill="#fff" opacity="0.88"/>
+          </clipPath>
         </defs>
-        <g id="Picture" transform="translate(-616 -240)">
+        <g id="Picture" transform="translate(-616 -265)">
           <g id="Frame" transform="translate(616 265)" fill="none" stroke="#ffb434" stroke-width="15">
             <rect width="697" height="697" stroke="none"/>
             <rect x="7.5" y="7.5" width="682" height="682" fill="none"/>
           </g>
-          <text id="Pronoun" transform="translate(1104 560)" fill="#fff" font-size="322" font-family="TraditionalArabic, Traditional Arabic" opacity="0.88"><tspan x="0" y="0">أنا</tspan></text>
           <image id="Photo" width="530" height="472" transform="translate(659 456)" opacity="0.87" xlink:href="assets/images/figures/najib-mahfuz-figure-1.jpg"/>
-          <g transform="matrix(1, 0, 0, 1, 616, 240)" filter="url(#First_Name)">
-            <text id="First_Name-2" data-name="First Name" transform="translate(286 522)" fill="#fff" font-size="284" font-family="TraditionalArabic, Traditional Arabic"><tspan x="0" y="0">نجيب</tspan></text>
+          <g transform="matrix(1, 0, 0, 1, 616, 265)" filter="url(#FirstNameFilter)">
+            <text id="FirstName" data-name="FirstName" transform="translate(286 497)" fill="#fff" font-size="284" font-family="TraditionalArabic, Traditional Arabic"><tspan x="0" y="0">نجيب</tspan></text>
           </g>
-          <g transform="matrix(1, 0, 0, 1, 616, 240)" filter="url(#Second_Name)">
-            <text id="Second_Name-2" data-name="Second Name" transform="translate(225 719)" fill="#fff" font-size="278" font-family="TraditionalArabic, Traditional Arabic"><tspan x="0" y="0">محفوظ</tspan></text>
+          <g transform="matrix(1, 0, 0, 1, 616, 265)" filter="url(#SecondNameFilter)">
+            <text id="SecondName" data-name="SecondName" transform="translate(225 694)" fill="#fff" font-size="278" font-family="TraditionalArabic, Traditional Arabic"><tspan x="0" y="0">محفوظ</tspan></text>
+          </g>
+          <g id="PronounMask" transform="translate(154 18)" clip-path="url(#clip-path)">
+            <g id="Rectangle_5" data-name="Rectangle 5" transform="translate(810 296)" fill="#fff" stroke="#707070" stroke-width="1">
+              <rect width="299" height="344" stroke="none"/>
+              <rect x="0.5" y="0.5" width="298" height="343" fill="none"/>
+            </g>
           </g>
         </g>
-      </svg>
+      </svg>            
       <nav>
         <ul>
           <li><a href="#about-me">نبذة عني</a></li>
