@@ -2,6 +2,9 @@ import 'reset-css'
 import './style.css'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import LibraryAggregator from './library';
+
+const Library = new LibraryAggregator();
 
 document.addEventListener("readystatechange", () => {
 
@@ -18,6 +21,41 @@ document.addEventListener("readystatechange", () => {
     },
     y: 1500,
   });
+
+  Library.on("intersection", () => {
+      
+    document.documentElement.style.overflow = 'hidden'
+
+    let previousValue = 0;
+
+    const onWheelEventHandler = (e: WheelEvent) => {
+
+      let changeRate = previousValue - e.deltaY;
+
+      previousValue = e.deltaY;
+      
+      if ( e.deltaY !== -0 ) return 
+
+      const isMoveUp = changeRate > 0;
+      const isMoveDown = changeRate < 0;
+      
+      if ( isMoveUp ) Library.next();
+      
+      if ( isMoveDown ) Library.previous();
+
+      if ( Library.isExceededLimit() ) {
+
+        document.documentElement.style.overflow = 'visible';
+
+        document.removeEventListener("wheel", onWheelEventHandler);
+
+      }
+
+    }
+
+    document.addEventListener("wheel", onWheelEventHandler);
+
+  })
 
 });
 

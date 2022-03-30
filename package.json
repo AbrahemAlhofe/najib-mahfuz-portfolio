@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "gsap": "^3.9.1",
+    "mitt": "^3.0.0",
     "reset-css": "^5.0.1"
   }
 }
