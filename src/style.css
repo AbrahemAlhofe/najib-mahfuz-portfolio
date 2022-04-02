@@ -386,6 +386,7 @@ section#my-works {
       &__thumbnail {
 
         width: 20em;
+        display: block;
 
       }
 

@@ -3,7 +3,13 @@ import mitt, { Emitter, Handler, WildcardHandler } from 'mitt';
 
 type TEvents = {
   intersection: IntersectionObserverEntry;
+  next: number;
 };
+
+type TBook = {
+  title: string;
+  thumbnail: string;
+}
 
 // @ts-ignore
 export default class LibraryAggregator implements Emitter<TEvents> {
@@ -12,9 +18,22 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
     #emitter: Emitter<TEvents> = mitt<TEvents>();
 
-    #currentBufferIndex: number = 0;
+    head: number = 0;
 
-    constructor () {
+    get length () { return Math.ceil( this.books.length / 6 ) - 1 }
+
+    // TODO: Set length to return type
+    get currentBuffer (): Array<TBook> {
+
+      const currentBuffer = this.books.slice(this.head * 6, ( this.head * 6 ) + 6);
+
+      console.debug({ currentBuffer })
+
+      return currentBuffer
+
+    }
+
+    constructor (public books: Array<TBook>) {
 
       const observer = new IntersectionObserver((entries) => {
 
@@ -30,10 +49,58 @@ export default class LibraryAggregator implements Emitter<TEvents> {
       
       observer.observe(document.querySelector(".library__viewport-indicator") as Element);
 
+      this.renderBooks();
+
+      this.renderTitles();
+
+    }
+
+    renderTitles () {
+
+      const titles = document.querySelectorAll(".library__title > span");
+  
+      titles.forEach(($title, index) => {
+        
+        $title.innerHTML = this.currentBuffer[index].title;
+      
+      })
+
+    }
+
+    renderBooks () {
+
+      const shelfs = [2, 3, 1, 4];
+      let bookIndex = 0;
+
+      const booksThumbnails: Array<HTMLImageElement> = Array.from(document.querySelectorAll(".book__thumbnail"));
+      booksThumbnails.forEach($book__thumbnail => {
+        $book__thumbnail.alt = "";
+        $book__thumbnail.src = "";
+      })
+
+      for ( let shelfOrder of shelfs ) {
+
+        if ( bookIndex >= this.currentBuffer.length ) break;
+
+        const books: NodeListOf<HTMLImageElement> = document.querySelectorAll(`.library__shelf:nth-of-type(${shelfOrder}) .book__thumbnail`);
+  
+        for ( let $book of Array.from( books ) ) {
+    
+          $book.alt = this.currentBuffer[bookIndex].title;
+          $book.src = this.currentBuffer[bookIndex].thumbnail;
+  
+          bookIndex += 1
+
+        }
+
+      }
+
     }
   
     next (): void {
   
+      if ( this.head >= Math.ceil( this.books.length / 6 ) - 1 ) return;
+
       const booksTimeline = gsap.timeline();
   
       booksTimeline
@@ -41,6 +108,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
           yPercent: -150,
           duration: 1,
           ease: "power2.out",
+          onComplete: () => this.renderBooks()
         })
         .set(".book__thumbnail", { yPercent: 150 })
         .to(".book__thumbnail", {
@@ -56,6 +124,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
           yPercent: -150,
           duration: 1,
           ease: "power2.out",
+          onComplete: () => this.renderTitles()
         })
         .set(".library__title > span", { yPercent: 150 })
         .to(".library__title > span", {
@@ -79,11 +148,13 @@ export default class LibraryAggregator implements Emitter<TEvents> {
             ease: "power2.out",
           })
 
-      this.#currentBufferIndex += 1;
-  
+      this.head += 1;
+
     }
 
     previous (): void {
+
+      if ( this.head <= 0 ) return;
 
       const booksTimeline = gsap.timeline();
   
@@ -92,6 +163,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
           yPercent: 150,
           duration: 1,
           ease: "power2.out",
+          onComplete: () => this.renderBooks()
         })
         .set(".book__thumbnail", { yPercent: -150 })
         .to(".book__thumbnail", {
@@ -107,6 +179,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
           yPercent: 150,
           duration: 1,
           ease: "power2.out",
+          onComplete: () => this.renderTitles()
         })
         .set(".library__title > span", { yPercent: -150 })
         .to(".library__title > span", {
@@ -130,13 +203,13 @@ export default class LibraryAggregator implements Emitter<TEvents> {
             ease: "power2.out",
           })
 
-      this.#currentBufferIndex -= 1;
+      this.head -= 1;
       
     }
 
     isExceededLimit(): boolean {
 
-      return this.#currentBufferIndex > 5 || this.#currentBufferIndex < 0;
+      return this.head >= this.length || this.head <= 0;
       
     }
 
