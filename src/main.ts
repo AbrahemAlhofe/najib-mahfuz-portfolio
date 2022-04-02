@@ -3,7 +3,9 @@ import './style.css'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LibraryAggregator from './library';
+import ViewportAggregator from './viewport';
 
+const Viewport = new ViewportAggregator();
 const Library = new LibraryAggregator([
   
   // Group 1
@@ -83,37 +85,37 @@ document.addEventListener("readystatechange", () => {
   });
 
   Library.on("intersection", () => {
+
+    let exceededCounts = 0;
       
-    document.documentElement.style.overflow = 'hidden'
+    Viewport.lock();
 
-    let previousValue = 0;
+    Viewport.on("swipe:up", () => Library.next())
 
-    const onWheelEventHandler = (e: WheelEvent) => {
+    Viewport.on("swipe:down", () => Library.previous())
 
-      let changeRate = previousValue - e.deltaY;
-
-      previousValue = e.deltaY;
+    Viewport.on("swipe", () => {
       
-      if ( e.deltaY !== -0 ) return 
+      if ( exceededCounts >= 2 ) {
 
-      const isMoveUp = changeRate > 0;
-      const isMoveDown = changeRate < 0;
-      
-      if ( isMoveUp ) Library.next();
-      
-      if ( isMoveDown ) Library.previous();
+        Viewport.unlock();
+        
+        Viewport.off("swipe:up");
+        
+        Viewport.off("swipe:down");
 
-      if ( Library.isExceededLimit() ) {
+        Viewport.off("swipe");
+        
+        exceededCounts = 0;
+        
+      } else {
 
-        document.documentElement.style.overflow = 'visible';
-
-        document.removeEventListener("wheel", onWheelEventHandler);
+        if ( Library.isExceededLimit() ) exceededCounts += 1;
+        else exceededCounts = 0;
 
       }
 
-    }
-
-    document.addEventListener("wheel", onWheelEventHandler);
+    })
 
   })
 
