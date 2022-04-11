@@ -249,6 +249,7 @@ section#my-works {
       width: 95vw;
       height: 95vh;
       margin-top: -15px;
+      pointer-events: none;
 
     }
 
@@ -387,6 +388,78 @@ section#my-works {
 
         width: 20em;
         display: block;
+
+      }
+
+    }
+
+  }
+
+  .browser {
+
+    display: none;
+    width: 90%;
+    height: 70%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &--open {
+
+      display: flex;
+
+    }
+
+    &__info {
+
+      flex-grow: 1;
+      font-family: "Traditional Arabic";
+      padding-inline: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+      width: 50%;
+
+    }
+
+    &__title {
+
+      font-size: 5rem;
+      word-break: break-word;
+      font-weight: bold;
+      overflow: hidden;
+
+      span {
+
+        display: block;
+
+      }
+
+    }
+
+    &__paragraph {
+
+      font-size: 2.5rem;
+      text-align: justify;
+      overflow: hidden;
+
+      span {
+
+        display: block;
+
+      }
+
+    }
+
+    &__thumbnail {
+
+      overflow: hidden;
+      flex-grow: 1;
+
+      img {
+
+        width: 100%;
 
       }
 

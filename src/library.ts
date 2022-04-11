@@ -4,12 +4,15 @@ import mitt, { Emitter, Handler, WildcardHandler } from 'mitt';
 type TEvents = {
   intersection: IntersectionObserverEntry;
   next: number;
+  move: any;
 };
 
 type TBook = {
   title: string;
   thumbnail: string;
 }
+
+enum LibraryModes { Reading, Browsing }
 
 // @ts-ignore
 export default class LibraryAggregator implements Emitter<TEvents> {
@@ -20,14 +23,14 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
     head: number = 0;
 
+    mode: LibraryModes = LibraryModes.Reading
+
     get length () { return Math.ceil( this.books.length / 6 ) - 1 }
 
     // TODO: Set length to return type
     get currentBuffer (): Array<TBook> {
 
       const currentBuffer = this.books.slice(this.head * 6, ( this.head * 6 ) + 6);
-
-      console.debug({ currentBuffer })
 
       return currentBuffer
 
@@ -53,8 +56,150 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.renderTitles();
 
+      const $books: NodeListOf<HTMLElement> = this.$root.querySelectorAll(".book");
+
+      $books.forEach( (book: HTMLElement) => {
+
+        book.addEventListener("click", () => {
+
+          this.open(Number(book.dataset["index"] as string));
+
+        })
+
+      })
+
     }
 
+    async open (bookIndex: number) {
+
+      this.mode = LibraryModes.Browsing;
+
+      const selectedBook = this.books[bookIndex];
+      const $browser = document.querySelector(".library .browser") as HTMLElement;
+      const $browser__title = $browser.querySelector(".browser__title span") as HTMLElement;
+      const $browser__paragraph = $browser.querySelector(".browser__paragraph span") as HTMLElement;
+      const $browser__thumbnail = $browser.querySelector(".browser__thumbnail img") as HTMLImageElement;
+      
+      gsap.set($browser__title, { yPercent: 110 });
+      gsap.set($browser__paragraph, { yPercent: 110 });
+      gsap.set($browser__thumbnail, { yPercent: 110 });
+      `1`
+      await this.hide();
+      
+      $browser.classList.add("browser--open");
+
+      $browser__title.innerText = selectedBook.title;
+
+      $browser__paragraph.innerText = "لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم نشأت بالفعل، وسأعرض لك التفاصيل لتكتشف حقيقة وأساس تلك السعادة البشرية، فلا أحد يرفض أو يكره أو يتجنب الشعور بالسعادة، ولكن بفضل هؤلاء الأشخاص الذين لا يدركون بأن السعادة لا بد أن نستشعرها بصورة أكثر عقلانية ومنطقية فيعرضهم هذا لمواجهة الظروف الأليمة، وأكرر بأنه لا يوجد من يرغب في الحب ونيل المنال ويتلذذ بالآلام، الألم هو الألم ولكن نتيجة لظروف ما قد تكمن السعاده فيما نتحمله من كد وأسي.      ";
+
+      $browser__thumbnail.src = selectedBook.thumbnail;
+      
+      gsap.to($browser__title, { yPercent: 0 });
+      gsap.to($browser__thumbnail, { yPercent: 0 });
+      gsap.to($browser__paragraph, { yPercent: 0 });
+
+      this.#emitter.on("move", () => {
+
+        gsap.to($browser__title, { yPercent: 110 });
+        gsap.to($browser__paragraph, { yPercent: 110 });
+        gsap.to($browser__thumbnail, {
+          
+          yPercent: 110,
+
+           onComplete: async () => {
+            
+            $browser.classList.remove("browser--open");
+
+            await this.unhide();
+
+            this.mode = LibraryModes.Reading;
+
+            this.#emitter.off("move");
+
+          }
+        
+        });
+
+
+      })
+
+    }
+
+    hide () {
+
+      return new Promise((resolve) => {
+
+        const booksTimeline = gsap.timeline();
+    
+        booksTimeline
+          .to(".book__thumbnail", {
+            yPercent: -150,
+            duration: 1,
+            ease: "power2.out",
+            onComplete: () => this.renderBooks()
+          })
+  
+        const textsTimeline = gsap.timeline();
+    
+        textsTimeline
+          .to(".library__title > span", {
+            yPercent: -150,
+            duration: 1,
+            ease: "power2.out",
+            onComplete: () => this.renderTitles()
+          })
+    
+        const shadesTimeline = gsap.timeline();
+    
+          shadesTimeline
+            .to(".library__shade span", {
+              yPercent: 1000,
+              duration: 1.5,
+              ease: "power2.out",
+              onComplete: resolve
+            })
+
+      })
+
+    }
+
+    unhide () {
+
+      return new Promise((resolve) => {
+
+        const booksTimeline = gsap.timeline();
+    
+        booksTimeline
+          .to(".book__thumbnail", {
+            yPercent: 0,
+            duration: 1,
+            ease: "power2.out",
+          })
+  
+        const textsTimeline = gsap.timeline();
+    
+        textsTimeline
+          .to(".library__title > span", {
+            yPercent: 0,
+            duration: 1,
+            ease: "power2.out",
+          })
+    
+        const shadesTimeline = gsap.timeline();
+    
+          shadesTimeline
+            .to(".library__shade span", {
+              yPercent: 0,
+              duration: 1.5,
+              ease: "power2.out",
+              onComplete: resolve
+            })
+
+      })
+
+    }
+
+    // TODO: make it private method
     renderTitles () {
 
       const titles = document.querySelectorAll(".library__title > span");
@@ -67,6 +212,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
     }
 
+    // TODO: make it private method
     renderBooks () {
 
       const shelfs = [2, 3, 1, 4];
@@ -88,6 +234,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
     
           $book.alt = this.currentBuffer[bookIndex].title;
           $book.src = this.currentBuffer[bookIndex].thumbnail;
+          $book.parentElement?.setAttribute("data-index", bookIndex.toString());
   
           bookIndex += 1
 
@@ -98,7 +245,11 @@ export default class LibraryAggregator implements Emitter<TEvents> {
     }
   
     next (): void {
+
+      this.#emitter.emit("move");
   
+      if ( this.mode !== LibraryModes.Reading ) return;
+
       if ( this.head >= Math.ceil( this.books.length / 6 ) - 1 ) return;
 
       const booksTimeline = gsap.timeline();
@@ -153,6 +304,10 @@ export default class LibraryAggregator implements Emitter<TEvents> {
     }
 
     previous (): void {
+
+      this.#emitter.emit("move");
+
+      if ( this.mode !== LibraryModes.Reading ) return;
 
       if ( this.head <= 0 ) return;
 
