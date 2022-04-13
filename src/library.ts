@@ -12,7 +12,7 @@ type TBook = {
   thumbnail: string;
 }
 
-enum LibraryModes { Reading, Browsing }
+enum LibraryModes { Browsing, Inspecting }
 
 // @ts-ignore
 export default class LibraryAggregator implements Emitter<TEvents> {
@@ -23,7 +23,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
     head: number = 0;
 
-    mode: LibraryModes = LibraryModes.Reading
+    mode: LibraryModes = LibraryModes.Browsing
 
     get length () { return Math.ceil( this.books.length / 6 ) - 1 }
 
@@ -72,47 +72,47 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
     async open (bookIndex: number) {
 
-      this.mode = LibraryModes.Browsing;
+      this.mode = LibraryModes.Inspecting;
 
       const selectedBook = this.books[bookIndex];
-      const $browser = document.querySelector(".library .browser") as HTMLElement;
-      const $browser__title = $browser.querySelector(".browser__title span") as HTMLElement;
-      const $browser__paragraph = $browser.querySelector(".browser__paragraph span") as HTMLElement;
-      const $browser__thumbnail = $browser.querySelector(".browser__thumbnail img") as HTMLImageElement;
+      const $inspector = document.querySelector(".library .inspector") as HTMLElement;
+      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
+      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
+      const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
       
-      gsap.set($browser__title, { yPercent: 110 });
-      gsap.set($browser__paragraph, { yPercent: 110 });
-      gsap.set($browser__thumbnail, { yPercent: 110 });
-      `1`
+      gsap.set($inspector__title, { yPercent: 110 });
+      gsap.set($inspector__paragraph, { yPercent: 110 });
+      gsap.set($inspector__thumbnail, { yPercent: 110 });
+      
       await this.hide();
       
-      $browser.classList.add("browser--open");
+      $inspector.classList.add("inspector--open");
 
-      $browser__title.innerText = selectedBook.title;
+      $inspector__title.innerText = selectedBook.title;
 
-      $browser__paragraph.innerText = "لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم نشأت بالفعل، وسأعرض لك التفاصيل لتكتشف حقيقة وأساس تلك السعادة البشرية، فلا أحد يرفض أو يكره أو يتجنب الشعور بالسعادة، ولكن بفضل هؤلاء الأشخاص الذين لا يدركون بأن السعادة لا بد أن نستشعرها بصورة أكثر عقلانية ومنطقية فيعرضهم هذا لمواجهة الظروف الأليمة، وأكرر بأنه لا يوجد من يرغب في الحب ونيل المنال ويتلذذ بالآلام، الألم هو الألم ولكن نتيجة لظروف ما قد تكمن السعاده فيما نتحمله من كد وأسي.      ";
+      $inspector__paragraph.innerText = "لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم نشأت بالفعل، وسأعرض لك التفاصيل لتكتشف حقيقة وأساس تلك السعادة البشرية، فلا أحد يرفض أو يكره أو يتجنب الشعور بالسعادة، ولكن بفضل هؤلاء الأشخاص الذين لا يدركون بأن السعادة لا بد أن نستشعرها بصورة أكثر عقلانية ومنطقية فيعرضهم هذا لمواجهة الظروف الأليمة، وأكرر بأنه لا يوجد من يرغب في الحب ونيل المنال ويتلذذ بالآلام، الألم هو الألم ولكن نتيجة لظروف ما قد تكمن السعاده فيما نتحمله من كد وأسي.      ";
 
-      $browser__thumbnail.src = selectedBook.thumbnail;
+      $inspector__thumbnail.src = selectedBook.thumbnail;
       
-      gsap.to($browser__title, { yPercent: 0 });
-      gsap.to($browser__thumbnail, { yPercent: 0 });
-      gsap.to($browser__paragraph, { yPercent: 0 });
+      gsap.to($inspector__title, { yPercent: 0 });
+      gsap.to($inspector__thumbnail, { yPercent: 0 });
+      gsap.to($inspector__paragraph, { yPercent: 0 });
 
       this.#emitter.on("move", () => {
 
-        gsap.to($browser__title, { yPercent: 110 });
-        gsap.to($browser__paragraph, { yPercent: 110 });
-        gsap.to($browser__thumbnail, {
+        gsap.to($inspector__title, { yPercent: 110 });
+        gsap.to($inspector__paragraph, { yPercent: 110 });
+        gsap.to($inspector__thumbnail, {
           
           yPercent: 110,
 
            onComplete: async () => {
             
-            $browser.classList.remove("browser--open");
+            $inspector.classList.remove("browser--open");
 
             await this.unhide();
 
-            this.mode = LibraryModes.Reading;
+            this.mode = LibraryModes.Browsing;
 
             this.#emitter.off("move");
 
@@ -248,7 +248,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.#emitter.emit("move");
   
-      if ( this.mode !== LibraryModes.Reading ) return;
+      if ( this.mode !== LibraryModes.Browsing ) return;
 
       if ( this.head >= Math.ceil( this.books.length / 6 ) - 1 ) return;
 
@@ -307,7 +307,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.#emitter.emit("move");
 
-      if ( this.mode !== LibraryModes.Reading ) return;
+      if ( this.mode !== LibraryModes.Browsing ) return;
 
       if ( this.head <= 0 ) return;
 
