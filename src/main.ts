@@ -2,7 +2,7 @@ import 'reset-css'
 import './style.css'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import LibraryAggregator from './library';
+import LibraryAggregator from './library/library';
 import ViewportAggregator from './viewport';
 
 const Viewport = new ViewportAggregator();
