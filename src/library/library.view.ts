@@ -47,89 +47,9 @@ export class LibraryView implements Emitter<TEvents> {
       gsap.set($inspector__thumbnail, { yPercent: 110 });
   
     }
-  
-    async hideShelves () {
 
-      return new Promise((resolve, reject) => {
+    async renderShelves (buffer: Array<TBook>) {
 
-        try {
-
-          const booksTimeline = gsap.timeline();
-      
-          booksTimeline
-            .to(".book__thumbnail", {
-              yPercent: -150,
-              duration: 1,
-              ease: "power2.out",
-            })
-    
-          const textsTimeline = gsap.timeline();
-      
-          textsTimeline
-            .to(".library__title > span", {
-              yPercent: -150,
-              duration: 1,
-              ease: "power2.out",
-            })
-    
-          const shadesTimeline = gsap.timeline();
-        
-          shadesTimeline
-            .to(".library__shade span", {
-              yPercent: 1000,
-              duration: 1.5,
-              ease: "power2.out",
-              onComplete: resolve
-            })
-
-        } catch (error) {
-
-          return reject(error);
-
-        }
-
-      })
-
-    }
-  
-    unhideShelves () {
-
-        return new Promise((resolve) => {
-  
-          const booksTimeline = gsap.timeline();
-      
-          booksTimeline
-            .to(".book__thumbnail", {
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
-            })
-    
-          const textsTimeline = gsap.timeline();
-      
-          textsTimeline
-            .to(".library__title > span", {
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
-            })
-      
-          const shadesTimeline = gsap.timeline();
-      
-            shadesTimeline
-              .to(".library__shade span", {
-                yPercent: 0,
-                duration: 1.5,
-                ease: "power2.out",
-                onComplete: resolve
-              })
-  
-        })
-  
-      }
-
-    renderText (buffer: Array<TBook>) {
-  
       const $titles = document.querySelectorAll(".library__title > span");
   
       $titles.forEach(($title, index) => {
@@ -145,28 +65,26 @@ export class LibraryView implements Emitter<TEvents> {
         }
       
       })
-  
-    }
-  
-    renderBooks (buffer: Array<TBook>) {
-  
-      const shelfs = [2, 3, 1, 4];
-      let bookIndex = 0;
-  
+
       const booksThumbnails: Array<HTMLImageElement> = Array.from(document.querySelectorAll(".book__thumbnail"));
       booksThumbnails.forEach($book__thumbnail => {
         $book__thumbnail.alt = "";
         $book__thumbnail.src = "";
       })
-  
-      for ( let shelfOrder of shelfs ) {
+      
+      const shelves = [2, 3, 1, 4];
+      let bookIndex = 0;
+      
+      for ( let shelfOrder of shelves ) {
   
         if ( bookIndex >= buffer.length ) break;
   
-        const books: NodeListOf<HTMLImageElement> = document.querySelectorAll(`.library__shelf:nth-of-type(${shelfOrder}) .book__thumbnail`);
+        const $books: NodeListOf<HTMLImageElement> = document.querySelectorAll(`.library__shelf:nth-of-type(${shelfOrder}) .book__thumbnail`);
   
-        for ( let $book of Array.from( books ) ) {
+        for ( let $book of Array.from( $books ) ) {
     
+          if ( bookIndex >= buffer.length ) break;
+
           $book.alt = buffer[bookIndex].title;
           $book.src = buffer[bookIndex].thumbnail;
           $book.parentElement?.setAttribute("data-index", bookIndex.toString());
@@ -176,7 +94,9 @@ export class LibraryView implements Emitter<TEvents> {
         }
   
       }
-  
+
+      return Promise.resolve();
+
     }
   
     async renderInspector (selectedBook: TBook) {
@@ -225,8 +145,8 @@ export class LibraryView implements Emitter<TEvents> {
       
   
     }
-  
-    nextShelf ( buffer: Array<TBook> ): Promise<any> {
+
+    fadeUp () {
 
       return new Promise(( resolve, reject ) => {
         
@@ -239,29 +159,16 @@ export class LibraryView implements Emitter<TEvents> {
               yPercent: -150,
               duration: 1,
               ease: "power2.out",
-              onComplete: () => this.renderBooks( buffer )
+              onComplete: resolve
             })
-            .set(".book__thumbnail", { yPercent: 150 })
-            .to(".book__thumbnail", {
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
-            })
-      
+
           const textsTimeline = gsap.timeline();
       
           textsTimeline
             .to(".library__title > span", {
               yPercent: -150,
               duration: 1,
-              ease: "power2.out",
-              onComplete: () => this.renderText( buffer )
-            })
-            .set(".library__title > span", { yPercent: 150 })
-            .to(".library__title > span", {
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
+              ease: "power2.out"
             })
       
           const shadesTimeline = gsap.timeline();
@@ -271,13 +178,6 @@ export class LibraryView implements Emitter<TEvents> {
                 yPercent: 1000,
                 duration: 1.5,
                 ease: "power2.out",
-              })
-              .set(".library__shade span", { yPercent: -1000 })
-              .to(".library__shade span", {
-                yPercent: 0,
-                duration: 1.5,
-                ease: "power2.out",
-                onComplete: resolve
               })
           
         } catch (error) {
@@ -287,10 +187,10 @@ export class LibraryView implements Emitter<TEvents> {
         }
 
       })
-      
+
     }
 
-    previousShelf ( buffer: Array<TBook> ): Promise<any> {
+    appearUp () {
 
       return new Promise((resolve, reject) => {
 
@@ -299,33 +199,67 @@ export class LibraryView implements Emitter<TEvents> {
           const booksTimeline = gsap.timeline();
   
           booksTimeline
-            .to(".book__thumbnail", {
-              yPercent: 150,
-              duration: 1,
-              ease: "power2.out",
-              onComplete: () => this.renderBooks( buffer )
-            })
-            .set(".book__thumbnail", { yPercent: -150 })
+            .set(".book__thumbnail", { yPercent: 150 })
             .to(".book__thumbnail", {
               yPercent: 0,
               duration: 1,
               ease: "power2.out",
+              onComplete: resolve
             })
       
+          const textsTimeline = gsap.timeline();
+      
+          textsTimeline
+            .set(".library__title > span", { yPercent: 150 })
+            .to(".library__title > span", {
+              yPercent: 0,
+              duration: 1,
+              ease: "power2.out",
+            })
+
+          const shadesTimeline = gsap.timeline();
+    
+          shadesTimeline
+            .set(".library__shade span", { yPercent: -1000 })
+            .to(".library__shade span", {
+              yPercent: -100,
+              duration: 1.5,
+              ease: "power2.out"
+            })
+
+        } catch (error) {
+
+          reject(error);
+
+        }
+
+      })
+
+    }
+
+    fadeDown () {
+
+      return new Promise(( resolve, reject ) => {
+        
+        try {
+          
+          const booksTimeline = gsap.timeline();
+      
+          booksTimeline
+            .to(".book__thumbnail", {
+              yPercent: 150,
+              duration: 1,
+              ease: "power2.out",
+              onComplete: resolve
+            })
+
           const textsTimeline = gsap.timeline();
       
           textsTimeline
             .to(".library__title > span", {
               yPercent: 150,
               duration: 1,
-              ease: "power2.out",
-              onComplete: () => this.renderText( buffer )
-            })
-            .set(".library__title > span", { yPercent: -150 })
-            .to(".library__title > span", {
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
+              ease: "power2.out"
             })
       
           const shadesTimeline = gsap.timeline();
@@ -336,13 +270,53 @@ export class LibraryView implements Emitter<TEvents> {
                 duration: 1.5,
                 ease: "power2.out",
               })
-              .set(".library__shade span", { yPercent: -1000 })
-              .to(".library__shade span", {
-                yPercent: 0,
-                duration: 1.5,
-                ease: "power2.out",
-                onComplete: resolve
-              })
+          
+        } catch (error) {
+
+          reject(error);
+
+        }
+
+      })
+
+    }
+
+    appearDown () {
+
+      return new Promise((resolve, reject) => {
+
+        try {
+
+          const booksTimeline = gsap.timeline();
+  
+          booksTimeline
+            .set(".book__thumbnail", { yPercent: -150 })
+            .to(".book__thumbnail", {
+              yPercent: 0,
+              duration: 1,
+              ease: "power2.out",
+              onComplete: resolve
+            })
+      
+          const textsTimeline = gsap.timeline();
+      
+          textsTimeline
+            .set(".library__title > span", { yPercent: -150 })
+            .to(".library__title > span", {
+              yPercent: 0,
+              duration: 1,
+              ease: "power2.out",
+            })
+
+          const shadesTimeline = gsap.timeline();
+    
+          shadesTimeline
+            .set(".library__shade span", { yPercent: -1000 })
+            .to(".library__shade span", {
+              yPercent: -100,
+              duration: 1.5,
+              ease: "power2.out"
+            })
 
         } catch (error) {
 

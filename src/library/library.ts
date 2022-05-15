@@ -30,9 +30,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.view.on("intersection", entry => this.#emitter.emit("intersection", entry))
 
-      this.view.renderText( this.currentBuffer );
-
-      this.view.renderBooks( this.currentBuffer );
+      this.view.renderShelves( books );
 
       this.view.on("book:click", (book) => {
 
@@ -46,7 +44,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.mode = LibraryModes.Inspecting;
       
-      await this.view.hideShelves();
+      await this.view.fadeUp();
 
       this.view.renderInspector( this.books[bookIndex] );
 
@@ -54,7 +52,7 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
         await this.view.hideInspector();
 
-        await this.view.unhideShelves();
+        await this.view.appearUp();
 
         this.mode = LibraryModes.Browsing;
 
@@ -72,13 +70,17 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       if ( this.head >= Math.ceil( this.books.length / 6 ) - 1 ) return;
       
+      await this.view.fadeUp();
+      
       this.head += 1;
+      
+      await this.view.renderShelves( this.currentBuffer );
 
-      await this.view.nextShelf( this.currentBuffer );
+      this.view.appearUp();
 
     }
 
-    async previous (): void {
+    async previous () {
 
       this.#emitter.emit("move");
 
@@ -86,9 +88,13 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       if ( this.head <= 0 ) return;
 
+      await this.view.fadeDown();
+      
       this.head -= 1;
       
-      await this.view.previousShelf( this.currentBuffer );
+      await this.view.renderShelves( this.currentBuffer );
+
+      this.view.appearDown();
 
     }
 
