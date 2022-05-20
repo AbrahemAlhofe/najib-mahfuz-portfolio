@@ -4,69 +4,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LibraryAggregator from './library/library';
 import ViewportAggregator from './viewport';
+import books from '../static/books.json';
 
 const Viewport = new ViewportAggregator();
-const Library = new LibraryAggregator([
-  
-  // Group 1
-  {
-    title: "بين القصرين",
-    thumbnail: "assets/images/books/dummy-1.jpg"
-  },
-  {
-    title: "خان الخليلي",
-    thumbnail: "assets/images/books/dummy-2.jpg"
-  },
-  {
-    title: "أولاد حارتنا",
-    thumbnail: "assets/images/books/dummy-3.jpg"
-  },
-  {
-    title: "دنيا الله",
-    thumbnail: "assets/images/books/dummy-1.jpg"
-  },
-  {
-    title: "اللص و الكلاب",
-    thumbnail: "assets/images/books/dummy-2.jpg"
-  },
-  {
-    title: "الحب تحت المطر",
-    thumbnail: "assets/images/books/dummy-3.jpg"
-  },
-
-  // Group 2
-  {
-    title: "ثرثرة فوق النيل",
-    thumbnail: "assets/images/books/dummy-4.jpg"
-  },
-  {
-    title: "اللص و الكلاب",
-    thumbnail: "assets/images/books/dummy-2.jpg"
-  },
-  {
-    title: "الحب تحت المطر",
-    thumbnail: "assets/images/books/dummy-3.jpg"
-  },
-  {
-    title: "السكرية",
-    thumbnail: "assets/images/books/dummy-4.jpg"
-  },
-  {
-    title: "اللص و الكلاب",
-    thumbnail: "assets/images/books/dummy-2.jpg"
-  },
-  {
-    title: "الحب تحت المطر",
-    thumbnail: "assets/images/books/dummy-3.jpg"
-  },
-  
-  // Group 3
-  {
-    title: "كفاح طيبة",
-    thumbnail: "assets/images/books/dummy-4.jpg"
-  }
-
-]);
+const Library = new LibraryAggregator(books);
 
 document.addEventListener("readystatechange", () => {
 
