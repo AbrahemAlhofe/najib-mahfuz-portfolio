@@ -35,7 +35,7 @@ document.addEventListener("readystatechange", () => {
 
     Viewport.on("swipe:down", () => Library.previous())
 
-    Viewport.on("swipe", () => {
+    Viewport.on("swipe:vertical", () => {
       
       if ( exceededCounts >= 2 ) {
 
@@ -45,7 +45,7 @@ document.addEventListener("readystatechange", () => {
         
         Viewport.off("swipe:down");
 
-        Viewport.off("swipe");
+        Viewport.off("swipe:vertical");
         
         exceededCounts = 0;
         

@@ -1,9 +1,12 @@
 import mitt, { Emitter, Handler, WildcardHandler } from "mitt";
 
 type TEvents = {
-    swipe: any
     ['swipe:up'] : any
     ['swipe:down'] : any
+    ['swipe:right'] : any
+    ['swipe:left'] : any
+    ['swipe:vertical'] : any
+    ['swipe:horizontal'] : any
 };
 
 // @ts-ignore
@@ -15,26 +18,47 @@ export default class ViewportAggregator implements Emitter<TEvents> {
 
     constructor () {
 
-        let previousValue = 0;
+        let deltaY = 0;
+        let deltaX = 0;
 
         const onWheelEventHandler = (e: WheelEvent) => {
-    
-          let changeRate = previousValue - e.deltaY;
-    
-          previousValue = e.deltaY;
           
+          // -0 value appears once in delta variables' values
           if ( e.deltaY === -0 && e.deltaX === -0 ) {
 
-            const isMoveUp = changeRate > 0;
-            const isMoveDown = changeRate < 0;
-  
-            this.#emitter.emit("swipe");
-            
-            if ( isMoveUp ) this.#emitter.emit("swipe:up");
-            
-            if ( isMoveDown ) this.#emitter.emit("swipe:down")
+            if ( Math.abs( deltaY ) > Math.abs( deltaX ) ) {
 
-          } 
+              const isMoveUp = deltaY > 0;
+              const isMoveDown = deltaY < 0;
+
+              if ( isMoveUp ) this.#emitter.emit("swipe:up");
+              
+              if ( isMoveDown ) this.#emitter.emit("swipe:down");
+  
+              this.#emitter.emit("swipe:vertical");
+
+            } 
+
+            if ( Math.abs( deltaY ) < Math.abs( deltaX ) ) {
+
+              const isSwipeLeft = deltaX > 0;
+              const isSwipeRight = deltaX < 0;
+
+              if ( isSwipeLeft ) this.#emitter.emit("swipe:left");
+  
+              if ( isSwipeRight ) this.#emitter.emit("swipe:right");
+  
+              this.#emitter.emit("swipe:horizontal");
+            
+            } 
+
+          } else {
+
+            deltaY = e.deltaY;
+
+            deltaX = e.deltaX;
+
+          }
     
         }
     

@@ -2,6 +2,7 @@ import mitt, { Emitter, Handler, WildcardHandler } from 'mitt';
 import { LibraryView } from './library.view';
 import { TEvents, LibraryModes, TBook } from './types';
 import { gsap } from 'gsap'; 
+import ViewportAggregator from '../viewport';
 
 // @ts-ignore
 export default class LibraryAggregator implements Emitter<TEvents> {
@@ -15,6 +16,8 @@ export default class LibraryAggregator implements Emitter<TEvents> {
     mode: LibraryModes = LibraryModes.Browsing
 
     view = new LibraryView();
+
+    #viewport = new ViewportAggregator();
 
     get length () { return Math.ceil( this.books.length / 6 ) - 1 }
 
@@ -51,33 +54,19 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       const $inspector = this.view.$root.querySelector(".inspector");
 
-      let previousValue = 0;
-
       let rotates = 1;
 
-      const onWheel = (event: WheelEvent) => {
-        
-        let changeRate = previousValue - event.deltaX;
-        
-        previousValue = event.deltaX;
-        
-        if ( event.deltaX === -0 && event.deltaY === -0 ) {
+      const onSwipeLeft = () => rotates -= 1;
+      
+      const onSwipeRight = () => rotates += 1;
 
-          const isSwipeLeft = changeRate > 0;
-  
-          rotates += isSwipeLeft ? -1 : 1;
-  
-          gsap.to($inspector, {
-            rotateY : `${rotates * 180}deg`,
-          })
+      this.#viewport.on("swipe:horizontal", () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` }))
 
-        } 
+      this.#viewport.on("swipe:left", onSwipeLeft);
 
-      }
+      this.#viewport.on("swipe:right", onSwipeRight)
 
-      document.addEventListener("wheel", onWheel)
-
-      this.#emitter.on("move", async () => {
+      this.#viewport.on("swipe:vertical", async () => {
 
         await this.view.hideInspector();
 
@@ -85,9 +74,13 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
         this.mode = LibraryModes.Browsing;
 
-        this.#emitter.off("move");
+        this.#viewport.off("swipe:vertical");
 
-        document.removeEventListener("wheel", onWheel)
+        this.#viewport.off("swipe:left", onSwipeLeft);
+
+        this.#viewport.off("swipe:right", onSwipeRight);
+
+        this.#viewport.off("swipe:horizontal");
   
       })
 
@@ -95,8 +88,6 @@ export default class LibraryAggregator implements Emitter<TEvents> {
   
     async next () {
 
-      this.#emitter.emit("move");
-  
       if ( this.mode !== LibraryModes.Browsing ) return;
 
       if ( this.head >= Math.ceil( this.books.length / 6 ) - 1 ) return;
@@ -112,8 +103,6 @@ export default class LibraryAggregator implements Emitter<TEvents> {
     }
 
     async previous () {
-
-      this.#emitter.emit("move");
 
       if ( this.mode !== LibraryModes.Browsing ) return;
 
