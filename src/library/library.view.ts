@@ -133,6 +133,8 @@ export class LibraryView implements Emitter<TEvents> {
             .to($inspector__thumbnail, { yPercent: 110, onComplete: resolve })
             .to($inspector, { rotateY: 0 })
 
+          $inspector.classList.remove("inspector--open");
+
         } catch (error) {
     
           reject(error);
