@@ -23,16 +23,18 @@ export default class ViewportAggregator implements Emitter<TEvents> {
     
           previousValue = e.deltaY;
           
-          if ( e.deltaY !== -0 ) return 
-    
-          const isMoveUp = changeRate > 0;
-          const isMoveDown = changeRate < 0;
+          if ( e.deltaY === -0 && e.deltaX === -0 ) {
 
-          this.#emitter.emit("swipe");
-          
-          if ( isMoveUp ) this.#emitter.emit("swipe:up");
-          
-          if ( isMoveDown ) this.#emitter.emit("swipe:down")
+            const isMoveUp = changeRate > 0;
+            const isMoveDown = changeRate < 0;
+  
+            this.#emitter.emit("swipe");
+            
+            if ( isMoveUp ) this.#emitter.emit("swipe:up");
+            
+            if ( isMoveDown ) this.#emitter.emit("swipe:down")
+
+          } 
     
         }
     
