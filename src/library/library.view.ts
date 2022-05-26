@@ -102,8 +102,8 @@ export class LibraryView implements Emitter<TEvents> {
     async renderInspector (selectedBook: TBook) {
   
       const $inspector = document.querySelector(".library .inspector") as HTMLElement;
-      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
-      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
+      const $inspector__title = $inspector.querySelector(".inspector__title") as HTMLElement;
+      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph") as HTMLElement;
       const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
   
       $inspector.classList.add("inspector--open");
@@ -113,28 +113,26 @@ export class LibraryView implements Emitter<TEvents> {
       $inspector__paragraph.innerText = "لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم نشأت بالفعل، وسأعرض لك التفاصيل لتكتشف حقيقة وأساس تلك السعادة البشرية، فلا أحد يرفض أو يكره أو يتجنب الشعور بالسعادة، ولكن بفضل هؤلاء الأشخاص الذين لا يدركون بأن السعادة لا بد أن نستشعرها بصورة أكثر عقلانية ومنطقية فيعرضهم هذا لمواجهة الظروف الأليمة، وأكرر بأنه لا يوجد من يرغب في الحب ونيل المنال ويتلذذ بالآلام، الألم هو الألم ولكن نتيجة لظروف ما قد تكمن السعاده فيما نتحمله من كد وأسي.      ";
   
       $inspector__thumbnail.src = selectedBook.thumbnail;
-      
-      gsap.to($inspector__title, { yPercent: 0 });
-      gsap.to($inspector__thumbnail, { yPercent: 0 });
-      gsap.to($inspector__paragraph, { yPercent: 0 });
+
+      gsap.timeline()
+        .to($inspector__thumbnail, { yPercent: 0 })
+        .to($inspector, { rotateY: 180 })
   
     }
   
     async hideInspector () {
   
       const $inspector = document.querySelector(".library .inspector") as HTMLElement;
-      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
-      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
       const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
       
       return new Promise((resolve, reject) => {
   
         try {
           
-          gsap.to($inspector__title, { yPercent: 110 });
-          gsap.to($inspector__paragraph, { yPercent: 110 });
-          gsap.to($inspector__thumbnail, { yPercent: 110, onComplete: resolve });
-    
+          gsap.timeline()
+            .to($inspector__thumbnail, { yPercent: 110, onComplete: resolve })
+            .to($inspector, { rotateY: 0 })
+
         } catch (error) {
     
           reject(error);

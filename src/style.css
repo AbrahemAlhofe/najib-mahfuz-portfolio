@@ -242,6 +242,7 @@ section#my-works {
     position: relative;
     overflow: hidden;
     font-size: 0.55rem;
+    perspective: 1000px;
 
     &__viewport-indicator {
 
@@ -398,12 +399,27 @@ section#my-works {
   .inspector {
 
     display: none;
-    width: 90%;
+    width: 90vw;
     height: 70%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
+    align-items: center;
+    justify-content: center;
+
+    @media ( width >= 768px ) {
+
+      width: 50vw;
+
+    }
+
+    @media ( width >= 1440px ) {
+
+      width: 30vw;
+      
+    }
 
     &--open {
 
@@ -419,7 +435,11 @@ section#my-works {
       display: flex;
       flex-direction: column;
       gap: 2em;
-      width: 50%;
+      position: absolute;
+      width: 100%;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
 
     }
 
@@ -428,34 +448,28 @@ section#my-works {
       font-size: 5rem;
       word-break: break-word;
       font-weight: bold;
-      overflow: hidden;
-
-      span {
-
-        display: block;
-
-      }
 
     }
 
     &__paragraph {
 
-      font-size: 2.5rem;
+      font-size: 2rem;
       text-align: justify;
-      overflow: hidden;
-
-      span {
-
-        display: block;
-
-      }
 
     }
 
     &__thumbnail {
 
       overflow: hidden;
-      flex-grow: 1;
+      position: absolute;
+      width: min(100%, 45vh);
+      backface-visibility: hidden;
+
+      @media ( width >= 768px ) {
+
+        width: min(100%, 35vh);
+
+      }
 
       img {
 

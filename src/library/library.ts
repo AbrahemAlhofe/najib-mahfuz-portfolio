@@ -1,6 +1,7 @@
 import mitt, { Emitter, Handler, WildcardHandler } from 'mitt';
 import { LibraryView } from './library.view';
 import { TEvents, LibraryModes, TBook } from './types';
+import { gsap } from 'gsap'; 
 
 // @ts-ignore
 export default class LibraryAggregator implements Emitter<TEvents> {
@@ -48,6 +49,32 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.view.renderInspector( this.books[bookIndex] );
 
+      const $inspector = this.view.$root.querySelector(".inspector");
+
+      let previousValue = 0;
+
+      let rotates = 1;
+
+      const onWheel = (event: WheelEvent) => {
+        
+        let changeRate = previousValue - event.deltaX;
+        
+        previousValue = event.deltaX;
+        
+        if ( event.deltaX !== -0 ) return 
+  
+        const isSwipeLeft = changeRate > 0;
+
+        rotates += isSwipeLeft ? -1 : 1;
+
+        gsap.to($inspector, {
+          rotateY : rotates * 180,
+        })
+
+      }
+
+      document.addEventListener("wheel", onWheel)
+
       this.#emitter.on("move", async () => {
 
         await this.view.hideInspector();
@@ -57,6 +84,8 @@ export default class LibraryAggregator implements Emitter<TEvents> {
         this.mode = LibraryModes.Browsing;
 
         this.#emitter.off("move");
+
+        document.removeEventListener("wheel", onWheel)
   
       })
 
