@@ -61,15 +61,17 @@ export default class LibraryAggregator implements Emitter<TEvents> {
         
         previousValue = event.deltaX;
         
-        if ( event.deltaX !== -0 ) return 
+        if ( event.deltaX === -0 && event.deltaY === -0 ) {
+
+          const isSwipeLeft = changeRate > 0;
   
-        const isSwipeLeft = changeRate > 0;
+          rotates += isSwipeLeft ? -1 : 1;
+  
+          gsap.to($inspector, {
+            rotateY : `${rotates * 180}deg`,
+          })
 
-        rotates += isSwipeLeft ? -1 : 1;
-
-        gsap.to($inspector, {
-          rotateY : rotates * 180,
-        })
+        } 
 
       }
 
