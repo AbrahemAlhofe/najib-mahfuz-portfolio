@@ -52,6 +52,8 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.view.renderInspector( this.books[bookIndex] );
 
+      const isSmallDevice = window.matchMedia("(max-width: 1024px)").matches;
+      
       const $inspector = this.view.$root.querySelector(".inspector");
 
       let rotates = 1;
@@ -60,11 +62,15 @@ export default class LibraryAggregator implements Emitter<TEvents> {
       
       const onSwipeRight = () => rotates += 1;
 
-      this.#viewport.on("swipe:horizontal", () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` }))
+      if ( isSmallDevice ) {
 
-      this.#viewport.on("swipe:left", onSwipeLeft);
+        this.#viewport.on("swipe:horizontal", () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` }))
+  
+        this.#viewport.on("swipe:left", onSwipeLeft);
+  
+        this.#viewport.on("swipe:right", onSwipeRight)
 
-      this.#viewport.on("swipe:right", onSwipeRight)
+      }
 
       this.#viewport.on("swipe:vertical", async () => {
 
@@ -73,15 +79,19 @@ export default class LibraryAggregator implements Emitter<TEvents> {
         await this.view.appearUp();
 
         this.mode = LibraryModes.Browsing;
-
+  
         this.#viewport.off("swipe:vertical");
 
-        this.#viewport.off("swipe:left", onSwipeLeft);
-
-        this.#viewport.off("swipe:right", onSwipeRight);
-
-        this.#viewport.off("swipe:horizontal");
+        if ( isSmallDevice ) {
+          
+          this.#viewport.off("swipe:left", onSwipeLeft);
   
+          this.#viewport.off("swipe:right", onSwipeRight);
+  
+          this.#viewport.off("swipe:horizontal");
+    
+        }
+
       })
 
     }

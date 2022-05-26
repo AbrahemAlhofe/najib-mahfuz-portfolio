@@ -37,15 +37,6 @@ export class LibraryView implements Emitter<TEvents> {
   
       })
   
-      const $inspector = document.querySelector(".library .inspector") as HTMLElement;
-      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
-      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
-      const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
-      
-      gsap.set($inspector__title, { yPercent: 110 });
-      gsap.set($inspector__paragraph, { yPercent: 110 });
-      gsap.set($inspector__thumbnail, { yPercent: 110 });
-  
     }
 
     async renderShelves (buffer: Array<TBook>) {
@@ -100,12 +91,22 @@ export class LibraryView implements Emitter<TEvents> {
     }
   
     async renderInspector (selectedBook: TBook) {
-  
+
+      const isSmallDevice = window.matchMedia("(max-width: 1024px)").matches;
+      
       const $inspector = document.querySelector(".library .inspector") as HTMLElement;
-      const $inspector__title = $inspector.querySelector(".inspector__title") as HTMLElement;
-      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph") as HTMLElement;
+      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
+      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
       const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
   
+      if ( !isSmallDevice ) {
+
+        gsap.set($inspector__title, { yPercent: 110 });
+        gsap.set($inspector__paragraph, { yPercent: 110 });
+        gsap.set($inspector__thumbnail, { yPercent: 110 });
+
+      }
+
       $inspector.classList.add("inspector--open");
   
       $inspector__title.innerText = selectedBook.title;
@@ -114,9 +115,20 @@ export class LibraryView implements Emitter<TEvents> {
   
       $inspector__thumbnail.src = selectedBook.thumbnail;
 
-      gsap.timeline()
-        .to($inspector__thumbnail, { yPercent: 0 })
-        .to($inspector, { rotateY: 180 })
+
+      if ( isSmallDevice ) {
+
+        gsap.timeline()
+          .to($inspector__thumbnail, { yPercent: 0 })
+          .to($inspector, { rotateY: 180 })
+
+      } else {
+
+        gsap.to($inspector__title, { yPercent: 0 });       
+        gsap.to($inspector__thumbnail, { yPercent: 0 });   
+        gsap.to($inspector__paragraph, { yPercent: 0 });
+
+      }
   
     }
   
@@ -124,16 +136,36 @@ export class LibraryView implements Emitter<TEvents> {
   
       const $inspector = document.querySelector(".library .inspector") as HTMLElement;
       const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
-      
+      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
+      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
+
       return new Promise((resolve, reject) => {
   
-        try {
-          
-          gsap.timeline()
-            .to($inspector__thumbnail, { yPercent: 110, onComplete: resolve })
-            .to($inspector, { rotateY: 0 })
+        const onComplete = () => {
 
           $inspector.classList.remove("inspector--open");
+
+          resolve(undefined);
+
+        }
+        
+        try {
+          
+          const isSmallDevice = window.matchMedia("(max-width: 1024px)").matches;
+
+          if ( isSmallDevice ) {
+            
+            gsap.timeline()
+              .to($inspector__thumbnail, { yPercent: 110, onComplete })
+              .to($inspector, { rotateY: 0 })
+    
+          } else {
+
+            gsap.to($inspector__title, { yPercent: 110 }); 
+            gsap.to($inspector__paragraph, { yPercent: 110 });
+            gsap.to($inspector__thumbnail, { yPercent: 110, onComplete })
+
+          }
 
         } catch (error) {
     

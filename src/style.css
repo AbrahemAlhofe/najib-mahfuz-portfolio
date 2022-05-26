@@ -417,7 +417,7 @@ section#my-works {
 
     @media ( width >= 1440px ) {
 
-      width: 30vw;
+      transform-style: flat;
       
     }
 
@@ -435,11 +435,18 @@ section#my-works {
       display: flex;
       flex-direction: column;
       gap: 2em;
-      position: absolute;
       width: 100%;
       box-sizing: border-box;
       backface-visibility: hidden;
       transform: rotateY(180deg);
+      position: absolute;
+
+      @media ( width >= 1440px ) {
+
+        transform: unset;
+        position: static;
+        
+      }
 
     }
 
@@ -448,6 +455,13 @@ section#my-works {
       font-size: 5rem;
       word-break: break-word;
       font-weight: bold;
+      overflow: hidden;
+
+      span {
+
+        display: block;
+
+      }
 
     }
 
@@ -455,6 +469,13 @@ section#my-works {
 
       font-size: 2rem;
       text-align: justify;
+      overflow: hidden;
+
+      span { 
+
+        display: block;
+
+      }
 
     }
 
@@ -469,6 +490,14 @@ section#my-works {
 
         width: min(100%, 35vh);
 
+      }
+
+      @media ( width >= 1440px ) {
+
+        transform: unset;
+        backface-visibility: visible;
+        position: static;
+        
       }
 
       img {
