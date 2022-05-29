@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LibraryAggregator from './library/library';
 import ViewportAggregator from './viewport';
 import books from '../static/books.json';
+import certificates from '../static/certificates.json';
 
 const Viewport = new ViewportAggregator();
 const Library = new LibraryAggregator(books);
@@ -57,6 +58,34 @@ document.addEventListener("readystatechange", () => {
       }
 
     })
+
+  })
+
+  const $certificates = document.querySelector("section#about-me ul");
+
+  certificates.forEach(certificate => {
+
+    const $certificate = document.createElement("li");
+    const $figure = document.createElement("figure");
+    const $image = document.createElement("img");
+    const $caption = document.createElement("figcaption");
+    const $title = document.createElement("span");
+    const $date = document.createElement("date");
+
+    $image.src = certificate.thumbnail;
+    
+    $figure.appendChild($image);
+    $figure.appendChild($caption);
+
+    $title.innerText = certificate.title;
+    $date.innerText = certificate.date;
+
+    $caption.appendChild($title);
+    $caption.appendChild($date);
+
+    $certificate.appendChild($figure);
+
+    $certificates?.appendChild($certificate);
 
   })
 
