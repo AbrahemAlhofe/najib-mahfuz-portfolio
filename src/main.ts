@@ -6,6 +6,7 @@ import LibraryAggregator from './library/library';
 import ViewportAggregator from './viewport';
 import books from '../static/books.json';
 import certificates from '../static/certificates.json';
+import prizes from '../static/prizes.json';
 
 const Viewport = new ViewportAggregator();
 const Library = new LibraryAggregator(books);
@@ -86,6 +87,34 @@ document.addEventListener("readystatechange", () => {
     $certificate.appendChild($figure);
 
     $certificates?.appendChild($certificate);
+
+  })
+
+  const $prizes = document.querySelector("section#about-me ul:nth-of-type(2)");
+
+  prizes.forEach(prize => {
+
+    const $prize = document.createElement("li");
+    const $figure = document.createElement("figure");
+    const $image = document.createElement("img");
+    const $caption = document.createElement("figcaption");
+    const $title = document.createElement("span");
+    const $date = document.createElement("date");
+
+    $image.src = prize.thumbnail;
+    
+    $figure.appendChild($image);
+    $figure.appendChild($caption);
+
+    $title.innerText = prize.title;
+    $date.innerText = prize.date;
+
+    $caption.appendChild($title);
+    $caption.appendChild($date);
+
+    $prize.appendChild($figure);
+
+    $prizes?.appendChild($prize);
 
   })
 
