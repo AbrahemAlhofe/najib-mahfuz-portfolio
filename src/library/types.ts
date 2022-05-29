@@ -8,4 +8,5 @@ export type TEvents = {
 export type TBook = {
     title: string;
     thumbnail: string;
+    description: string;
 }
