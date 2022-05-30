@@ -4,9 +4,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LibraryAggregator from './library/library';
 import ViewportAggregator from './viewport';
-import books from '../static/books.json';
-import certificates from '../static/certificates.json';
-import prizes from '../static/prizes.json';
+import books from '../data/books.json';
+import certificates from '../data/certificates.json';
+import prizes from '../data/prizes.json';
 
 const Viewport = new ViewportAggregator();
 const Library = new LibraryAggregator(books);
