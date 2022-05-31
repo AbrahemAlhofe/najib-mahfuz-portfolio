@@ -16,11 +16,11 @@ jobs:
           node-version: "14.x"
       - run: npm install
       - run: npm run build
-      - run: mkdir dest
+      - run: mkdir docs
       - name: Deploy
         uses: crazy-max/ghaction-github-pages@v1
         with:
           target_branch: gh-pages
-          build_dir: dest
+          build_dir: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
