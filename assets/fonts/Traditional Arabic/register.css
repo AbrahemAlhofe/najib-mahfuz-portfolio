@@ -1,0 +1,20 @@
+@font-face {
+
+    font-family: "Traditional Arabic";
+    src: url('./regular.ttf') format('truetype')
+         url('./regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    
+}
+
+@font-face {
+
+    font-family: "Traditional Arabic";
+    src: url('./bold.ttf') format('truetype')
+         url('./bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    
+}
+
