@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:host": "vite --host"
   },
   "devDependencies": {
     "postcss-for": "^2.1.1",
