@@ -143,7 +143,13 @@ section#about-me {
 
       img {
 
-        height: 10vw;
+        height: 15vw;
+
+        @media (width >= 768px) {
+  
+          height: 10vw;
+          
+        }
 
       }
 
@@ -151,11 +157,18 @@ section#about-me {
 
         display: flex;
         flex-direction: column;
-        font-size: 1.5em;
+        font-size: 2em;
         
         gap: 1em;
+        
+        @media (width >= 768px) {
+  
+          font-size: 1.5em;
+          
+        }
 
       }
+
 
     }
 
