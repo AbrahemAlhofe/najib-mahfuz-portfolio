@@ -266,8 +266,8 @@ section#my-works {
     &__viewport-indicator {
 
       position: absolute;
-      width: 95vw;
-      height: 95vh;
+      width: 90vw;
+      height: 80vh;
       margin-top: -15px;
       pointer-events: none;
 

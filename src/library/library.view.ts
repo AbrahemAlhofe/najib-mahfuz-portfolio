@@ -15,7 +15,7 @@ export class LibraryView implements Emitter<TEvents> {
   
         entries.forEach(entry => {
   
-          if ( entry.intersectionRatio < 1 ) return 
+          if ( !entry.isIntersecting ) return 
             
           this.#emitter.emit("intersection", entry);
   
