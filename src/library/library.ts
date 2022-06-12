@@ -56,13 +56,17 @@ export default class LibraryAggregator implements Emitter<TEvents> {
       
       const onSwipeRight = () => rotates += 1;
 
+      const onSwipe = () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` })
+
       if ( isSmallDevice ) {
 
-        this.#viewport.on("swipe:horizontal", () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` }))
+        this.#viewport.on("swipe:horizontal", onSwipe);
   
         this.#viewport.on("swipe:left", onSwipeLeft);
   
         this.#viewport.on("swipe:right", onSwipeRight)
+
+        $inspector!.addEventListener("click", () => { onSwipeLeft(); onSwipe() });
 
       }
 
