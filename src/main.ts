@@ -60,6 +60,14 @@ document.addEventListener("readystatechange", () => {
 
     })
 
+    Library.view.on("book:click", (book) => {
+
+      Library.inspect(Number(book.dataset["index"] as string));
+
+      Viewport.lock();
+
+    })
+
   })
 
   const $certificates = document.querySelector("section#about-me ul");

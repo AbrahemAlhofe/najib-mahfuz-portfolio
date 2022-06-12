@@ -36,12 +36,6 @@ export default class LibraryAggregator implements Emitter<TEvents> {
 
       this.view.renderShelves( books );
 
-      this.view.on("book:click", (book) => {
-
-        this.inspect(Number(book.dataset["index"] as string));
-
-      })
-
     }
 
     async inspect (bookIndex: number) {
