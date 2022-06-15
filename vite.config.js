@@ -1,4 +1,5 @@
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { viteTakeScreenshot } from './plugins/vite-take-screenshot'
 
 export default {
 
@@ -11,7 +12,8 @@ export default {
                     dest: 'assets'
                 }
             ]
-        })
+        }),
+        viteTakeScreenshot()
     ],
 
     base: "./"
