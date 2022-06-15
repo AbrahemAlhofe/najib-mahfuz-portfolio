@@ -194,6 +194,14 @@ section#about-me {
 
   }
 
+  @media (width >= 1440px) {
+
+    .figure {
+      width: 50vw;      
+    }
+
+  }
+
 }
 
 section#my-works {
