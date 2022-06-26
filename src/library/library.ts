@@ -36,6 +36,7 @@ export default class LibraryController implements Emitter<TEvents> {
 
       this.view.renderInspector( this.model.books[bookIndex] );
 
+      this.view.showInspector();
 
       this.#viewport.on("swipe:vertical", async () => {
 

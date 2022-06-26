@@ -149,9 +149,17 @@ export class LibraryView implements Emitter<TEvents> {
       $inspector__paragraph.innerText = selectedBook.description;
   
       $inspector__thumbnail.src = selectedBook.thumbnail;
+  
+    }
+  
+    async showInspector () {
 
-
-      if ( isSmallDevice ) {
+      const $inspector = document.querySelector(".library .inspector") as HTMLElement;
+      const $inspector__title = $inspector.querySelector(".inspector__title span") as HTMLElement;
+      const $inspector__paragraph = $inspector.querySelector(".inspector__paragraph span") as HTMLElement;
+      const $inspector__thumbnail = $inspector.querySelector(".inspector__thumbnail img") as HTMLImageElement;
+      
+      if ( this.isSmallDevice ) {
 
         gsap.timeline()
           .to($inspector__thumbnail, { yPercent: 0 })
@@ -164,9 +172,9 @@ export class LibraryView implements Emitter<TEvents> {
         gsap.to($inspector__paragraph, { yPercent: 0 });
 
       }
-  
+
     }
-  
+
     async hideInspector () {
   
       const $inspector = document.querySelector(".library .inspector") as HTMLElement;
