@@ -40,38 +40,6 @@ export class LibraryView implements Emitter<TEvents> {
   
       })
 
-      const $inspector = this.$root.querySelector(".inspector");
-
-      let rotates = 1;
-
-      const onSwipeLeft = () => rotates -= 1;
-      
-      const onSwipeRight = () => rotates += 1;
-
-      const onSwipe = () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` })
-
-      if ( this.isSmallDevice ) {
-
-        this.#viewport.on("swipe:horizontal", onSwipe);
-  
-        this.#viewport.on("swipe:left", onSwipeLeft);
-  
-        this.#viewport.on("swipe:right", onSwipeRight)
-
-        $inspector!.addEventListener("click", () => { onSwipeLeft(); onSwipe() });
-          
-        this.#viewport.on("swipe:vertical", () => {
-          
-          this.#viewport.off("swipe:left", onSwipeLeft);
-  
-          this.#viewport.off("swipe:right", onSwipeRight);
-  
-          this.#viewport.off("swipe:horizontal", onSwipe);
-
-        })
-
-      }
-  
     }
 
     async renderShelves (buffer: Array<TBook>) {
@@ -149,6 +117,42 @@ export class LibraryView implements Emitter<TEvents> {
       $inspector__paragraph.innerText = selectedBook.description;
   
       $inspector__thumbnail.src = selectedBook.thumbnail;
+
+      let rotates = 1;
+
+      const onSwipeLeft = () => rotates -= 1;
+      
+      const onSwipeRight = () => rotates += 1;
+
+      const onSwipe = () => {
+        
+        gsap.to($inspector, { rotateY : `${rotates * 180}deg` })
+        
+        console.log("onSwipe")
+        
+      }
+
+      if ( this.isSmallDevice ) {
+
+        this.#viewport.on("swipe:horizontal", onSwipe);
+  
+        this.#viewport.on("swipe:left", onSwipeLeft);
+  
+        this.#viewport.on("swipe:right", onSwipeRight)
+
+        $inspector!.addEventListener("click", () => { onSwipeLeft(); onSwipe() });
+          
+        this.#viewport.on("swipe:vertical", () => {
+          
+          this.#viewport.off("swipe:left", onSwipeLeft);
+  
+          this.#viewport.off("swipe:right", onSwipeRight);
+  
+          this.#viewport.off("swipe:horizontal", onSwipe);
+
+        })
+
+      }
   
     }
   
