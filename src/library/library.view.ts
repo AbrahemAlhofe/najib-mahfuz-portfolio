@@ -1,6 +1,7 @@
 import mitt, { Emitter, Handler, WildcardHandler } from "mitt";
 import { TEvents, TBook } from "./types";
 import { gsap } from 'gsap';
+import ViewportAggregator from "../viewport";
 
 // @ts-ignore
 export class LibraryView implements Emitter<TEvents> {
@@ -8,6 +9,8 @@ export class LibraryView implements Emitter<TEvents> {
     $root: HTMLDivElement = document.querySelector(".library") as HTMLDivElement;
   
     #emitter: Emitter<TEvents> = mitt<TEvents>();
+
+    #viewport: ViewportAggregator = new ViewportAggregator();
   
     constructor () {
   
@@ -36,6 +39,38 @@ export class LibraryView implements Emitter<TEvents> {
         })
   
       })
+
+      const $inspector = this.$root.querySelector(".inspector");
+
+      let rotates = 1;
+
+      const onSwipeLeft = () => rotates -= 1;
+      
+      const onSwipeRight = () => rotates += 1;
+
+      const onSwipe = () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` })
+
+      if ( this.isSmallDevice ) {
+
+        this.#viewport.on("swipe:horizontal", onSwipe);
+  
+        this.#viewport.on("swipe:left", onSwipeLeft);
+  
+        this.#viewport.on("swipe:right", onSwipeRight)
+
+        $inspector!.addEventListener("click", () => { onSwipeLeft(); onSwipe() });
+          
+        this.#viewport.on("swipe:vertical", () => {
+          
+          this.#viewport.off("swipe:left", onSwipeLeft);
+  
+          this.#viewport.off("swipe:right", onSwipeRight);
+  
+          this.#viewport.off("swipe:horizontal", onSwipe);
+
+        })
+
+      }
   
     }
 
@@ -358,6 +393,10 @@ export class LibraryView implements Emitter<TEvents> {
 
       })
 
+    }
+
+    get isSmallDevice (): boolean {
+      return window.matchMedia("(max-width: 1024px)").matches
     }
 
     on<Key extends keyof TEvents>(type: Key, handler: Handler<TEvents[Key]>): void;

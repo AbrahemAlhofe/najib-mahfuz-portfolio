@@ -36,29 +36,6 @@ export default class LibraryController implements Emitter<TEvents> {
 
       this.view.renderInspector( this.model.books[bookIndex] );
 
-      const isSmallDevice = window.matchMedia("(max-width: 1024px)").matches;
-      
-      const $inspector = this.view.$root.querySelector(".inspector");
-
-      let rotates = 1;
-
-      const onSwipeLeft = () => rotates -= 1;
-      
-      const onSwipeRight = () => rotates += 1;
-
-      const onSwipe = () => gsap.to($inspector, { rotateY : `${rotates * 180}deg` })
-
-      if ( isSmallDevice ) {
-
-        this.#viewport.on("swipe:horizontal", onSwipe);
-  
-        this.#viewport.on("swipe:left", onSwipeLeft);
-  
-        this.#viewport.on("swipe:right", onSwipeRight)
-
-        $inspector!.addEventListener("click", () => { onSwipeLeft(); onSwipe() });
-
-      }
 
       this.#viewport.on("swipe:vertical", async () => {
 
@@ -69,16 +46,6 @@ export default class LibraryController implements Emitter<TEvents> {
         this.model.mode = LibraryModes.Browsing;
   
         this.#viewport.off("swipe:vertical");
-
-        if ( isSmallDevice ) {
-          
-          this.#viewport.off("swipe:left", onSwipeLeft);
-  
-          this.#viewport.off("swipe:right", onSwipeRight);
-  
-          this.#viewport.off("swipe:horizontal");
-    
-        }
 
       })
 
