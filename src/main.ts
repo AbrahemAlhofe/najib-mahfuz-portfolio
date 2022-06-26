@@ -2,14 +2,14 @@ import 'reset-css'
 import './style.css'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import LibraryAggregator from './library/library';
+import LibraryController from './library/library';
 import ViewportAggregator from './viewport';
 import books from '../data/books.json';
 import certificates from '../data/certificates.json';
 import prizes from '../data/prizes.json';
 
 const Viewport = new ViewportAggregator();
-const Library = new LibraryAggregator(books);
+const Library = new LibraryController(books);
 
 document.addEventListener("readystatechange", () => {
 

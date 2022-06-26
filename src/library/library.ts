@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import ViewportAggregator from '../viewport';
 
 // @ts-ignore
-export default class LibraryAggregator implements Emitter<TEvents> {
+export default class LibraryController implements Emitter<TEvents> {
 
     $root: HTMLDivElement = document.querySelector(".library") as HTMLDivElement;
 
