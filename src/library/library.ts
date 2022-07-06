@@ -1,7 +1,6 @@
 import mitt, { Emitter, Handler, WildcardHandler } from 'mitt';
 import { LibraryView } from './library.view';
 import { TEvents, LibraryModes, TBook } from './types';
-import { gsap } from 'gsap'; 
 import LibraryModel from './library.model';
 import ViewportAggregator from '../viewport';
 
