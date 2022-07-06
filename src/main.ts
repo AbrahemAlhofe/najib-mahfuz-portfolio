@@ -13,6 +13,8 @@ const Library = new LibraryController(books);
 
 document.addEventListener("readystatechange", () => {
 
+  document.body.classList.remove("--loading");
+
   gsap.from([".figure#main #Frame", ".figure#main #FirstName", ".figure#main #SecondName", ".figure#main #Pronoun"], {
     yPercent: 50,
     opacity: 0.2,
